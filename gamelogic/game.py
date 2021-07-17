@@ -17,7 +17,7 @@ class Gamer:
         pass
 
     def do_step(self):
-        """"""
+        """ """
         pass
 
 class Game:
@@ -26,7 +26,7 @@ class Game:
         self.gamers = [Gamer(source_id)]
         self.chat_id = chat_id
         self.votes = {}
-        self.count_of_nights = 0
+        self.count_of_mafia = 0
         self.mafia_votes = {}
         self.is_day = True
 
@@ -36,28 +36,20 @@ class Game:
             for gamer in self.gamers:
                 gamer.set_role(roles.pop())
 
-            #self.is_day = False
+            # Заполнение словарей votes и mafia_votes
+            self.is_day = False
             self.make_turn()
             return 'Город засыпает, просыпается мафия и знакомится друг с другом'
         else:
             return 'Игроков должно быть от 4 до 7'
 
-    def end(self):
-        pass
+    def end(self, winner):
+        return f"Игра закончена! Победили {winner} "
 
     def make_turn(self):
-        """ """
-        # логика ходов, проверка, что мафия сходилась.
-        # сделать через потоки (sleep)
-        # если день, то проверку, что все проголосовали
-
-        # для ночи
         if not self.is_day:
-            pass
+            return "Наступает ночь. Мафия выбирает свою жертву."
         elif self.is_day:
-            pass
+            return "Наступает день. Жители начинают голосование."
 
 
-
-
-# в первый день голосуют и в первую ночь убивают
