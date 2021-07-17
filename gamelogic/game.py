@@ -19,6 +19,19 @@ class Game:
         self.mafia_votes = {}
         self.is_day = True
 
+    @staticmethod
+    def gather_players():
+        return 'Игра создана, присоединяйтесь!'
+
+    def gather_player(self, source_id, name):
+        message = f'В игру вошел {name}. Количество игроков на данный момент: {len(self.gamers)}.'
+        self.gamers.append(Gamer(source_id, name))
+        if len(self.gamers) == 7:
+            return message + '\n\n' + self.start()
+        elif 4 < len(self.gamers) < 7:
+            return message + ' Вы можете начать игру!'
+        return message
+
     def start(self):
         if len(self.gamers) in roles_by_number_of_gamers.keys():
             roles = roles_by_number_of_gamers[len(self.gamers)].copy()
