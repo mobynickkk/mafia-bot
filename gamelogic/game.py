@@ -61,13 +61,14 @@ class Game:
                 person = gamer
             else:
                 new_gamers.append(gamer)
+        self.gamers = new_gamers
         if isinstance(person.role, Mafia):
             self.count_of_mafia -= 1
         if self.count_of_mafia < 1:
-            self.end(Mafia)
+            self.end('мирные жители')
             return
         elif len(self.gamers) - self.count_of_mafia < 2:
-            self.end(Civilian)
+            self.end('мафиози')
             return
         voting.clear()
         return person
