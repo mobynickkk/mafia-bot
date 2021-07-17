@@ -1,6 +1,6 @@
 import telebot
 
-from .gamelogic import Game
+from gamelogic import Game
 
 
 token = ''
@@ -19,7 +19,8 @@ def start_message(message):
 
 @bot.message_handler(commands=['startgame'])
 def start_game(message):
-    game = Game(message.chat.id, message.from_.id, message.from_.name)
+    game = active_games.get(message.chat.id,
+                            Game(message.chat.id, message.from_user.id, message.from_user.username))
     active_games[message.chat.id] = game
     bot.send_message(message.chat.id, game.gather_players())
 
@@ -27,5 +28,6 @@ def start_game(message):
 @bot.message_handler(commands=['join'])
 def join_game(message):
     game = active_games[message.chat.id]
-    bot.send_message(message.chat.id, game.gather_player(message.from_.id, message.from_.name))
+    bot.send_message(message.chat.id, game.gather_player(message.from_user.id, message.from_user.username))
 
+bot.polling(none_stop=True)
