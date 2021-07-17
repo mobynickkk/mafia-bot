@@ -1,7 +1,9 @@
-roles_by_number_of_gamers = {4: ['Мафия', 'Житель', 'Житель', 'Житель'],
-                             5: ['Мафия', 'Мафия', 'Житель', 'Житель', 'Житель'],
-                             6: ['Мафия', 'Мафия', 'Житель', 'Житель', 'Житель', 'Житель'],
-                             7: ['Мафия', 'Мафия', 'Офицер', 'Житель', 'Житель', 'Житель', 'Житель']}
+from .roles import Civilian, Mafia, Officer
+
+roles_by_number_of_gamers = {4: [Mafia, Civilian, Civilian, Civilian],
+                             5: [Mafia, Mafia, Civilian, Civilian, Civilian],
+                             6: [Mafia, Mafia, Civilian, Civilian, Civilian, Civilian],
+                             7: [Mafia, Mafia, Officer, Civilian, Civilian, Civilian, Civilian]}
 
 
 class Gamer:
