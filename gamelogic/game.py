@@ -24,10 +24,10 @@ class Game:
         return 'Игра создана, присоединяйтесь!'
 
     def gather_player(self, source_id, name):
-        if any(map(lambda gamer: gamer.name, self.gamers)):
+        if any(map(lambda gamer: gamer.name == name, self.gamers)):
             return 'Вы уже зарегестрированы!'
-        message = f'В игру вошел {name}. Количество игроков на данный момент: {len(self.gamers)}.'
         self.gamers.append(Gamer(source_id, name))
+        message = f'В игру вошел {name}. Количество игроков на данный момент: {len(self.gamers)}.'
         if len(self.gamers) == 7:
             return message + '\n\n' + self.start()
         elif 4 < len(self.gamers) < 7:
