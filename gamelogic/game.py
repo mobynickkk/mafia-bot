@@ -1,31 +1,13 @@
 from random import shuffle
 
 from .roles import Civilian, Mafia, Officer
+from .gamer import Gamer
 
 roles_by_number_of_gamers = {4: [Mafia, Civilian, Civilian, Civilian],
                              5: [Mafia, Mafia, Civilian, Civilian, Civilian],
                              6: [Mafia, Mafia, Civilian, Civilian, Civilian, Civilian],
                              7: [Mafia, Mafia, Officer, Civilian, Civilian, Civilian, Civilian]}
 
-
-class Gamer:
-    def __init__(self, source_id, name):
-        self.source_id = source_id
-        self.name = name
-        self.role = None
-
-    def set_role(self, role):
-        self.role = role
-
-    def do_step(self, name=None):
-        """ Хендлер для хода игрока в ночное время """
-        if not isinstance(self.role, Civilian):
-            return self.role.do_step()(name)
-        else:
-            return self.role.do_step()
-
-    def vote(self, name):
-        return self.role.vote(name)
 
 class Game:
 
