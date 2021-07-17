@@ -27,7 +27,6 @@ class Gamer:
     def vote(self, name):
         return self.role.vote(name)
 
-
 class Game:
 
     def __init__(self, chat_id, source_id, name):
@@ -35,7 +34,6 @@ class Game:
         self.chat_id = chat_id
         self.votes = {}
         self.count_of_mafia = 0
-        self.count_of_nights = 0
         self.mafia_votes = {}
         self.is_day = True
 
@@ -45,14 +43,14 @@ class Game:
             shuffle(roles)
             for gamer in self.gamers:
                 gamer.set_role(roles.pop()(self))
-            # self.is_day = False
+            self.is_day = False
             self.make_turn()
             return 'Город засыпает, просыпается мафия и знакомится друг с другом'
         else:
             return 'Игроков должно быть от 4 до 7'
 
-    def end(self):
-        pass
+    def end(self, winner):
+        return f"Игра закончена! Победили {winner} "
 
     def kick(self, voting):
         new_gamers = []
@@ -83,17 +81,7 @@ class Game:
         return f'{person.name} был убит сегодня ночью. Его профессию можно назвать {person.role.literal}'
 
     def make_turn(self):
-        """ """
-        # логика ходов, проверка, что мафия сходилась.
-        # сделать через потоки (sleep)
-        # если день, то проверку, что все проголосовали
-
-        # для ночи
         if not self.is_day:
-            pass
+            return "Наступает ночь. Мафия выбирает свою жертву."
         elif self.is_day:
-            pass
-
-
-
-# в первый день голосуют и в первую ночь убивают
+            return "Наступает день. Жители начинают голосование."
