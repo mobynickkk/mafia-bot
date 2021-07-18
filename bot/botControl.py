@@ -1,12 +1,16 @@
 import telebot
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from gamelogic import Game
+from gamelogic.roles import Mafia
+from .markupCreator import MarkupCreator
 
 
 class BotControl:
     def __init__(self, token):
         self.bot = telebot.TeleBot(token)
         self.active_games = {}
+        self.markup_creators = {}
 
     def build_bot(self):
 
@@ -22,6 +26,7 @@ class BotControl:
                 self.bot.send_message(message.chat.id, 'Извините, игра уже началась!')
                 return
             self.active_games[message.chat.id] = game
+            self.markup_creators[message.chat.id] = MarkupCreator(game)
             self.bot.send_message(message.chat.id, game.gather_players())
 
         @self.bot.message_handler(commands=['join'])
@@ -43,6 +48,21 @@ class BotControl:
         def make_special_vote(message):
             """ Метод для голосования мафии/ареста офицера (в лс) """
             pass
+
+        @self.bot.message_handler(commands=['forcestartgame'])
+        def force_start_game(message):
+            """ На случай, если люди нажум старт игры до того, как наберется 7 человек """
+            game = self.active_games[message.chat.id]
+            self.bot.send_message(message.chat.id, game.start())
+
+    def send_out(self, chat_id):
+        """ разослать письма мафиози и офицеру"""
+        game = self.active_games[chat_id]
+        markup_creator = self.markup_creators[chat_id]
+        mafias = filter(lambda gamer: isinstance(gamer.role, Mafia), game.gamers)
+        for mafia in mafias:
+            self.bot.send_message(mafia.source_id, f'Твоя роль - мафия. Выбирай, кого убить: ',
+                                  reply_markup=markup_creator.get_mafia_markup())
 
     def polling(self, *args, **kwargs):
         try:

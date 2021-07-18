@@ -81,7 +81,9 @@ class Game:
         return f'{person.name} был убит сегодня ночью. Его профессию можно назвать {person.role.literal}'
 
     def make_turn(self):
-        if not self.is_day:
-            return "Наступает ночь. Мафия выбирает свою жертву."
-        elif self.is_day:
+        self.kick_person_by_voting()
+        if self.is_day:
+            self.kick_person_by_mafia_voting()
             return "Наступает день. Жители начинают голосование."
+        else:
+            return "Наступает ночь. Мафия выбирает свою жертву."
