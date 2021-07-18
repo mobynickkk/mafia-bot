@@ -28,8 +28,11 @@ def start_game(message):
 @bot.message_handler(commands=['join'])
 def join_game(message):
     game = active_games[message.chat.id]
-    bot.send_message(message.chat.id,
-                     game.gather_player(message.from_user.id,
-                                        message.from_user.username))
+    if game.is_game_started:
+        bot.send_message(message.chat.id, 'Игра уже началась!')
+    else:
+        bot.send_message(message.chat.id,
+                         game.gather_player(message.from_user.id,
+                                            message.from_user.username))
 
 bot.polling(none_stop=True)

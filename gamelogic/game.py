@@ -18,6 +18,7 @@ class Game:
         self.count_of_mafia = 0
         self.mafia_votes = {}
         self.is_day = True
+        self.is_game_started = False
 
     @staticmethod
     def gather_players():
@@ -29,10 +30,10 @@ class Game:
         self.gamers.append(Gamer(source_id, name))
         message = f'В игру вошел {name}. Количество игроков на данный момент: {len(self.gamers)}.'
         if len(self.gamers) == 7:
-            return message + '\n\n' + self.start()
+            return message + '\n\n' + self.start(), True
         elif 4 < len(self.gamers) < 7:
-            return message + ' Вы можете начать игру!'
-        return message
+            return message + ' Вы можете начать игру!', False
+        return message, False
 
     def start(self):
         if len(self.gamers) in roles_by_number_of_gamers.keys():
@@ -42,6 +43,7 @@ class Game:
                 gamer.set_role(roles.pop()(self))
             self.is_day = False
             self.make_turn()
+            self.is_game_started = True
             return 'Город засыпает, просыпается мафия и знакомится друг с другом'
         else:
             return 'Игроков должно быть от 4 до 7'
