@@ -21,6 +21,9 @@ def start_message(message):
 def start_game(message):
     game = active_games.get(message.chat.id,
                             Game(message.chat.id, message.from_user.id, message.from_user.username))
+    if game.is_game_started:
+        bot.send_message(message.chat.id, 'Извините, игра уже началась!')
+        return
     active_games[message.chat.id] = game
     bot.send_message(message.chat.id, game.gather_players())
 
@@ -34,5 +37,6 @@ def join_game(message):
         bot.send_message(message.chat.id,
                          game.gather_player(message.from_user.id,
                                             message.from_user.username))
+
 
 bot.polling(none_stop=True)
