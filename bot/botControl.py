@@ -4,6 +4,8 @@ from gamelogic import Game
 from gamelogic.roles import Mafia
 from .markupCreators import get_mafia_markup
 
+import logging
+
 
 class BotControl:
     def __init__(self, token):
@@ -63,5 +65,6 @@ class BotControl:
     def polling(self, *args, **kwargs):
         try:
             self.bot.polling(*args, **kwargs)
-        except:
+        except Exception as e:
+            logging.error('Error at %s', 'division', exc_info=e)
             self.polling(*args, **kwargs)
