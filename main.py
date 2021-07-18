@@ -1,10 +1,6 @@
-from .bot import BotControl
+from .bot import BotControl, get_token
 
-token = ''
-with open('token.txt', 'r') as f:
-    token = f.readline()
-
-bot_control = BotControl(token)
+bot_control = BotControl(get_token())
 bot_control.build_bot()
 
 bot_control.polling(none_stop=True)
