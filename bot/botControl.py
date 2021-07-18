@@ -1,5 +1,4 @@
 import telebot
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from gamelogic import Game
 from gamelogic.roles import Mafia
